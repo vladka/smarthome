@@ -1,0 +1,16 @@
+query Devices {
+  devices {
+    name
+    id
+    status
+    temperature
+    humidity
+    brandName
+    battery
+    macAddress
+    location
+    brandLogoUrl
+    online
+    offlineTime
+  }
+}

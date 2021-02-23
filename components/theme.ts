@@ -5,3 +5,7 @@ export const spacings = {
   l: '32px',
   xl: '64px',
 }
+
+export const breakpoints = {
+  smallMobile: '500px',
+}

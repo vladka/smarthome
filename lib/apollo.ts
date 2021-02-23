@@ -19,11 +19,33 @@ function createIsomorphLink(context: ResolverContext = {}) {
     const { schema } = require('./schema')
     return new SchemaLink({ schema, context })
   } else {
-    const { HttpLink } = require('@apollo/client')
-    return new HttpLink({
+    const { HttpLink, split } = require('@apollo/client')
+    const { WebSocketLink } = require('apollo-link-ws')
+    const { getMainDefinition } = require('@apollo/client/utilities')
+    const httpLink = new HttpLink({
       uri: '/api/graphql',
       credentials: 'same-origin',
     })
+    const wsLink = new WebSocketLink({
+      uri: `ws://${document.location.host}/api/graphqlSubscriptions`,
+      options: {
+        reconnect: true,
+      },
+    })
+
+    const splitLink = split(
+      //@ts-ignore
+      ({ query }) => {
+        const definition = getMainDefinition(query)
+        return (
+          definition.kind === 'OperationDefinition' &&
+          definition.operation === 'subscription'
+        )
+      },
+      wsLink,
+      httpLink
+    )
+    return splitLink
   }
 }
 

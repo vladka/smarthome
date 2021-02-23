@@ -1,0 +1,18 @@
+type Device {
+  id: ID!
+  deviceId: String!
+  parentDeviceId: String
+  name: String!
+  status: String
+  temperature: Float
+  humidity: Float
+  brandName: String
+  brandLogoUrl: String
+  productModel: String
+  location: String
+  battery: Float
+  macAddress: String
+  online: Boolean
+  offlineTime: String
+  onlineTime: String
+}

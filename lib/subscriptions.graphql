@@ -1,0 +1,16 @@
+subscription deviceUpdated {
+  deviceUpdated {
+    name
+    id
+    status
+    temperature
+    humidity
+    brandName
+    battery
+    macAddress
+    location
+    brandLogoUrl
+    online
+    offlineTime
+  }
+}
