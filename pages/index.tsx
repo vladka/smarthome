@@ -9,6 +9,11 @@ import { initializeApollo } from '../lib/apollo'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { Menu } from '../components/menu'
+import { state } from './about'
+
+//example for cyclic reference:
+export const bestMonthIndex = 3
+export const getLabel = (index: number) => state.labels[index]
 
 const Index = () => {
   const { data, loading, error } = useViewerQuery()
@@ -16,6 +21,7 @@ const Index = () => {
   const [updateNameMutation] = useUpdateNameMutation()
 
   const onChangeName = () => {
+    //console.log(JSON.stringify(state))
     updateNameMutation({
       variables: {
         name: newName,
@@ -34,7 +40,7 @@ const Index = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
+        <div>The best month is: {getLabel(3)}</div>
         <div className={styles.graphql}>
           {loading && <>Loading....</>}
           {error && <>Error</>}

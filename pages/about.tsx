@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { Line } from 'react-chartjs-2'
+import { bestMonthIndex, getLabel } from './index'
 
-const state = {
+export const state = {
   labels: ['January', 'February', 'March', 'April', 'May'],
   datasets: [
     {
@@ -16,6 +17,8 @@ const state = {
   ],
 }
 
+export type StateType = typeof state
+
 const About = () => {
   return (
     <div>
@@ -23,7 +26,8 @@ const About = () => {
       <Link href="/">
         <a>Home</a>
       </Link>{' '}
-      page.
+      page. <br />
+      <div>The best month is: {getLabel(bestMonthIndex)}</div>
       <Line
         data={state}
         options={{

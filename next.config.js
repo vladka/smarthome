@@ -1,4 +1,6 @@
 const fs = require('fs');
+const withNextCircularDeps = require('next-circular-dependency');
+const withPlugins = require('next-compose-plugins');
 const environment = process.env.ENVIRONMENT || 'local';
 
 const loadFirebaseConfig = (env) => {
@@ -23,16 +25,26 @@ const appConfig = {
   serverRuntimeConfig: {
     anySecretServerVariable: 'ok',
     firebaseAdminConfig
-    
   },
   publicRuntimeConfig: {
     anyVariableAvailableEverywhere: 'ok',
     firebaseConfig
-    
   },
 };
 
-module.exports = {
+
+const plugins = [
+  [
+    withNextCircularDeps,
+    {
+      exclude: /node_modules/,
+      failOnError: false,
+    },
+  ],
+];
+
+
+const nextConfig = {
   ...appConfig,
   webpack: (config, options) => {
     config.module.rules.push({
@@ -56,3 +68,7 @@ module.exports = {
     return config
   },
 }
+
+module.exports = withPlugins(
+  plugins
+  , nextConfig);
